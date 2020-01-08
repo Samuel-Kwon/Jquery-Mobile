@@ -1,0 +1,302 @@
+<!--
+Created by: Samuel Kwon
+email:      Skwon9600@conestogac.on.ca
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Jquery-Mobile</title>
+        <!--jQuery-->
+        <script src="js/lib/jquery-2.1.4.js"></script>
+        <!--jQuery mobile-->
+        <script src="js/lib/jquery.mobile-1.4.5.js"></script>
+        <!--jQuery mobile css-->
+        <link rel="stylesheet" type="text/css" href="css/lib/jquery.mobile-1.4.5.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/SKmystyle.css">
+        <script src="js/SKdatabase.js"></script>
+        <script src="js/SKfeedbackDAL.js"></script>
+        <script src="js/SKglobal.js"></script>
+        <script src="js/SKutil.js"></script>
+        <script src="js/SKfacade.js"></script>
+        <script src="js/SKLocation.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2b75-WbX6g4ZD9y294pHTNNiRatQImMA"
+        type="text/javascript"></script>
+
+    </head>
+    <body>
+
+        <!--page 1-->
+        <div data-role="page" id="SKHomePage">
+            <header data-role="header" data-theme="b" data-position="fixed">
+                <h1>Samuel Kwon's PUBG weapon list</h1>
+                <div data-role="navbar" data-iconpos="left">
+                    <ul>
+                        <li><a href="#SKHomePage" data-icon="home" class="ui-btn-active ui-state-persist">Home</a></li>
+                        <li><a href="#SKAddWeaponPage" data-icon="plus">Add Weapon</a></li>
+                        <li><a href="#SKViewWeaponsPage" data-icon="gear">Weapons</a></li>
+                        <li><a href="#SKLocationPage" data-icon="location" >Location</a></li>
+                        <li><a href="#SKAboutPage" data-icon="info">About Me</a></li>   
+                    </ul>
+                </div>
+
+            </header>
+            <section data-role="content">
+                <img src="img/PubgBackground2.jpg" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+
+                <h3>Welcome to PUBG weapon list!</h1>
+            </section>
+            <footer data-role="footer" data-theme="b" data-position="fixed">
+                <h4>&copy; 2019 Samuel Kwon</h4>
+            </footer>
+
+
+        </div>
+
+        <!--page 2-->
+        <div data-role="page" id="SKAddWeaponPage">
+            <header data-role="header" data-theme="b" data-position="fixed">
+                <h1>Add a Weapon</h1>
+                <div data-role="navbar" data-iconpos="left">
+                    <ul>
+                        <li><a href="#SKHomePage" data-icon="home" >Home</a></li>
+                        <li><a href="#SKAddWeaponPage" data-icon="plus" class="ui-btn-active ui-state-persist">Add Weapon</a></li>
+                        <li><a href="#SKViewWeaponsPage" data-icon="gear">Weapons</a></li>
+                        <li><a href="#SKLocationPage" data-icon="location" >Location</a></li>
+                        <li><a href="#SKAboutPage" data-icon="info">About Me</a></li>
+                    </ul>
+                </div>
+
+
+            </header>
+            <section data-role="content">
+                <form id="SKAddForm" onsubmit="return SKAddFeedback()"> 
+
+                <label for="SKName">Weapon Name:</label>
+                <input type="text" id="SKName">
+                <label class="error" id="SKNameError"></label>
+
+                <label for="SKSelectType">Weapon Type:</label>
+                <select id="SKSelectType">
+                </select>
+
+                <label for="SKSelectBullet">Bullet Type:</label>
+                <select id="SKSelectBullet">
+                </select>
+
+                <label for="SKDamage">Damage (0 - 100):</label>
+                <input type="text" id="SKDamage">
+                <label class="error" id="SKDamageError"></label>
+                
+                <label for="SKRate">Rate of fire (s):</label>
+                <input type="text"id="SKRate">
+                <label class="error" id="SKRateError"></label>
+
+                <label for="SKSpeed">Bullet Spped (m/s):</label>
+                <input type="text" id="SKSpeed">
+                <label class="error" id="SKSpeedError"></label>
+
+                <label for="SKReload">Reload Duration (s):</label>
+                <input type="text" id="SKReload">
+                <label class="error" id="SKReloadError"></label>
+
+                <label for="SKRange">Range (m):</label>
+                <input type="text" id="SKRange">
+                <label class="error" id="SKRangeError"></label>
+
+                <label for="SKImpact">Body hit impact:</label>
+                <input type="text" id="SKImpact">
+                <label class="error" id="SKImpactError"></label>
+
+                <button type="submit">Save</button>
+                </form>
+
+            </section>
+            <footer data-role="footer" data-theme="b" data-position="fixed">
+                <h4>&copy; 2019 Samuel Kwon</h4>
+            </footer>
+
+
+        </div>
+        <!--page 3-->
+        <div data-role="page" id="SKViewWeaponsPage">
+            <header data-role="header" data-theme="b" data-position="fixed">
+                <h1>List of Weapons</h1>
+                <div data-role="navbar" data-iconpos="left">
+                    <ul>
+                        <li><a href="#SKHomePage" data-icon="home" >Home</a></li>
+                        <li><a href="#SKAddWeaponPage" data-icon="plus">Add Weapon</a></li>
+                        <li><a href="#SKViewWeaponsPage" data-icon="gear" class="ui-btn-active ui-state-persist">Weapons</a></li>
+                        <li><a href="#SKLocationPage" data-icon="location" >Location</a></li>
+                        <li><a href="#SKAboutPage" data-icon="info">About Me</a></li>
+                    </ul>
+                </div>
+
+
+            </header>
+            <section data-role="content">
+                
+                <ul id="SKTemplateData" data-role="listview" class="ui-listview-inset">
+                    <li>
+                        <a href="#SKEditWeaponPage">
+                            <h3>Business Name: Pizza Pizza</h3>                            
+                            <label>Reviewer Email: loveKass@gmail.com</label>
+                            <label>Comments: Amazing! Taste aswesome.</label>
+                            <label>Overall Raitng: 95%</label>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <footer data-role="footer" data-theme="b" data-position="fixed">
+                <h4>&copy; 2019 Samuel Kwon</h4>
+            </footer>
+
+        </div>
+
+        <!--page 4-->
+        <div data-role="page" id="SKEditWeaponPage">
+                <header data-role="header" data-theme="b" data-position="fixed">
+                    <h1>Edit Weapon</h1>
+                    <div data-role="navbar" data-iconpos="left">
+                        <ul>
+                            <li><a href="#SKHomePage" data-icon="home" >Home</a></li>
+                            <li><a href="#SKAddWeaponPage" data-icon="plus" >Add Weapon</a></li>
+                            <li><a href="#SKViewWeaponsPage" data-icon="gear" class="ui-btn-active ui-state-persist">Weapons</a></li>
+                            <li><a href="#SKLocationPage" data-icon="location">Location</a></li>
+                            <li><a href="#SKAboutPage" data-icon="info">About Me</a></li>
+                        </ul>
+                    </div>
+    
+                    
+                </header>
+                <section data-role="content">
+
+                <form id="SKEditForm" onsubmit="return SKUpdateFeedback()">
+                <label for="SKNameEdit">Weapon Name:</label>
+                <input type="text" id="SKNameEdit">
+                <label class="error" id="SKNameErrorEdit"></label>
+
+                <label for="SKSelectTypeEdit">Weapon Type:</label>
+                <select id="SKSelectTypeEdit">
+                </select>
+
+                <label for="SKSelectBulletEdit">Bullet Type:</label>
+                <select id="SKSelectBulletEdit">
+                </select>
+
+                <label for="SKDamageEdit">Damage (0 - 100):</label>
+                <input type="text" id="SKDamageEdit">
+                <label class="error" id="SKDamageErrorEdit"></label>
+                
+                <label for="SKRateEdit">Rate of fire (s):</label>
+                <input type="text"id="SKRateEdit">
+                <label class="error" id="SKRateErrorEdit"></label>
+
+                <label for="SKSpeedEdit">Bullet Spped (m/s):</label>
+                <input type="text" id="SKSpeedEdit">
+                <label class="error" id="SKSpeedErrorEdit"></label>
+
+                <label for="SKReloadEdit">Reload Duration (s):</label>
+                <input type="text" id="SKReloadEdit">
+                <label class="error" id="SKReloadErrorEdit"></label>
+
+                <label for="SKRangeEdit">Range (m):</label>
+                <input type="text" id="SKRangeEdit">
+                <label class="error" id="SKRangeErrorEdit"></label>
+
+                <label for="SKImpactEdit">Body hit impact:</label>
+                <input type="text" id="SKImpactEdit">
+                <label class="error" id="SKImpactErrorEdit"></label>
+                        
+                <div data-role="controlgroup" data-type="horizontal">
+                    <button type="button" onclick="return SKCancel()">Cancel</button>
+                    <button type="button" onclick="return SKDeleteFeedback()">Delete</button>
+                    <button type="submit">Update</button>
+                </div>
+                </form>
+    
+                </section>
+                <footer data-role="footer" data-theme="b" data-position="fixed">
+                    <h4>&copy; 2019 Samuel Kwon</h4>
+                </footer>
+    
+    
+            </div>
+
+        <!--page 5-->
+        <div data-role="page" id="SKLocationPage">
+            <header data-role="header" data-theme="b" data-position="fixed">
+                <h1>Save Location</h1>
+                <div data-role="navbar" data-iconpos="left">
+                    <ul>
+                        <li><a href="#SKHomePage" data-icon="home" >Home</a></li>
+                        <li><a href="#SKAddWeaponPage" data-icon="plus" >Add Weapon</a></li>
+                        <li><a href="#SKViewWeaponsPage" data-icon="gear">Weapons</a></li>
+                        <li><a href="#SKLocationPage" data-icon="location" class="ui-btn-active ui-state-persist">Location</a></li>
+                        <li><a href="#SKAboutPage" data-icon="info">About Me</a></li>
+                    </ul>
+                </div>
+
+
+            </header>
+            <section data-role="content">
+                <div id="map" style="width: 350px; height:350px;"></div>
+
+                </br>
+
+                <form id="SKUserForm" onsubmit="return SKAddUser()">
+
+                <label for="SKUserName">User Name:</label>
+                <input type="text" id="SKUserName">
+                <label class="error" id="SKUserNameError"></label>
+
+                <input type="hidden" id="SKLat">
+                <input type="hidden" id="SKLong">
+
+                <button type="submit">Save</button>
+                </form>
+
+            </section>
+            <footer data-role="footer" data-theme="b" data-position="fixed">
+                <h4>&copy; 2019 Samuel Kwon</h4>
+            </footer>
+
+
+        </div>
+
+        <!--page 6-->
+        <div data-role="page" id="SKAboutPage">
+            <header data-role="header" data-theme="b" data-position="fixed">
+                <h1>About Me</h1>
+                <div data-role="navbar" data-iconpos="left">
+                    <ul>
+                        <li><a href="#SKHomePage" data-icon="home" >Home</a></li>
+                        <li><a href="#SKAddWeaponPage" data-icon="plus" >Add Weapon</a></li>
+                        <li><a href="#SKViewWeaponsPage" data-icon="gear">Weapons</a></li>
+                        <li><a href="#SKLocationPage" data-icon="location">Location</a></li>
+                        <li><a href="#SKAboutPage" data-icon="info" class="ui-btn-active ui-state-persist">About Me</a></li>
+                    </ul>
+                </div>
+
+
+            </header>
+            <section data-role="content">
+                <img src="img/Me.jpg" width="200px" height="266.66px">
+                <p>Name: Samuel Kwon</p>
+                <p>Species: Unknwon</p>
+                <p>Habitat: Canada</p>
+                <p>Last Spotted Place: Conestoga College</p>
+            </section>
+            <footer data-role="footer" data-theme="b" data-position="fixed">
+                <h4>&copy; 2019 Samuel Kwon</h4>
+            </footer>
+
+
+        </div>
+
+
+    </body>
+</html>

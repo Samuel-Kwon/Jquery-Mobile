@@ -1,0 +1,40 @@
+#SKContact{
+    border:  1px solid rgb(209, 208, 208);
+    box-shadow: 1px 1px 1px rgb(209, 208, 208);
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#SKContainer a{
+    text-decoration: none;
+}
+
+#SKIcon{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* #SKTemplateData{
+    border: 1px solid rgb(209, 208, 208);
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px rgb(209, 208, 208);
+    margin: 0px 5px 5px 5px;
+    padding: 5px 5px 5px 25px;
+    font-size: 14px;
+} */
+
+#SKTemplateData a{
+    text-decoration: none;
+}
+
+#SKCancelButton, #SKSaveButton, #SKUpdateButton{
+    display: inline;
+}
+
+#SKSaveDefault, #SKClearDatabase{
+    width: 100%;
+}
